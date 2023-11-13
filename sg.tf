@@ -30,32 +30,7 @@ resource "aws_security_group" "app_server_sg" {
 }
 
 
-#### TRYING TO ADD ALB TO SCRIPT  ==================   THIS PART HAS MOVED TO MAIN.TF SHOULD DELETE AFTER TESTING
 
-
-# resource "aws_lb" "alb" {
-#   name               = "${var.ProjectName}-${var.env}-alb"
-#   internal           = false
-#   load_balancer_type = "application"
-#   security_groups    = [aws_security_group.alb_sg.id]
-#   subnets            = ["subnet-031413dc70965a163", "subnet-038fc6a3e7ef68131"]           #[data.aws_subnets.public_subnet-01.id, data.aws_subnets.public_subnet-02.id] 
-
-#   enable_deletion_protection = false
-#   drop_invalid_header_fields = true
-
-#   #   access_logs {                                           # TODO will create later
-#   #     bucket  = aws_s3_bucket.alb-logs.bucket
-#   #     prefix  = "${var.ProjectName}-alb"
-#   #     enabled = true
-#   #   }
-
-#   tags = merge(
-#     local.common_tags,
-#     {
-#       "Name" = "${var.ProjectName}-${var.env}-alb",
-#     },
-#   )
-# }
 
 resource "aws_security_group" "alb_sg" {
   name        = "${var.ProjectName}-${var.env}-alb-sg"
