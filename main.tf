@@ -30,8 +30,8 @@ resource "aws_lb" "alb" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
-  subnets            = ["subnet-031413dc70965a163", "subnet-038fc6a3e7ef68131"]      #[data.aws_subnets.public_subnet-01.id, data.aws_subnets.public_subnet-02.id] 
-  
+  subnets            = ["subnet-031413dc70965a163", "subnet-038fc6a3e7ef68131"] #[data.aws_subnets.public_subnet-01.id, data.aws_subnets.public_subnet-02.id] 
+
 
 
 
@@ -59,12 +59,12 @@ resource "aws_lb_listener" "public-proxy" {
   load_balancer_arn = aws_lb.alb.arn
   port              = "80"
   protocol          = "HTTP"
- 
-  
+
+
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.public-proxy.arn     # Name of TARGET GROUP RESOURCE 
+    target_group_arn = aws_lb_target_group.public-proxy.arn # Name of TARGET GROUP RESOURCE 
   }
 }
 
@@ -75,11 +75,11 @@ resource "aws_lb_target_group" "public-proxy" {
   name     = "${var.env}-public-proxy"
   port     = 80
   protocol = "HTTP"
-  vpc_id   = data.aws_vpc.CloudGuru.id       #var.vpc.id.id 
-  
+  vpc_id   = data.aws_vpc.CloudGuru.id #var.vpc.id.id 
 
- 
-  
+
+
+
 
   health_check {
     port                = 80
@@ -101,12 +101,12 @@ resource "aws_lb_target_group" "public-proxy" {
 }
 
 resource "aws_lb_target_group_attachment" "tg_attachment" {
-    target_group_arn = aws_lb_target_group.public-proxy.arn
-    # attach the ALB to this target group     
-    target_id        = aws_instance.app_server_ec2.id      #aws_lb.alb.arn
-    #  If the target type is alb, the targeted Application Load Balancer must have at least one listener whose port matches the target group port.
-    port             = 80
-    
+  target_group_arn = aws_lb_target_group.public-proxy.arn
+  # attach the ALB to this target group     
+  target_id = aws_instance.app_server_ec2.id #aws_lb.alb.arn
+  #  If the target type is alb, the targeted Application Load Balancer must have at least one listener whose port matches the target group port.
+  port = 80
+
 }
 
 
@@ -140,12 +140,12 @@ resource "aws_launch_template" "aols-spa-lt" {
 #   max_size           = 2
 #   min_size           = 1
 #   target_group_arns = [aws_lb_target_group.public-proxy.arn]
-  
-  
- 
-  
 
- 
+
+
+
+
+
 
 #   launch_template {
 #     id      = aws_launch_template.aols-spa-lt.id

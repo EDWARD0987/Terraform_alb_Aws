@@ -6,7 +6,7 @@ variable "app_server_instance_type" {
 }
 variable "subnet_id" {
   default = "subnet-031413dc70965a163"
-  
+
 }
 
 # variable "subnet_id" {
