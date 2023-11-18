@@ -10,7 +10,7 @@ resource "aws_instance" "app_server_ec2" {
   subnet_id              = var.subnet_id
   monitoring             = false
   vpc_security_group_ids = [aws_security_group.app_server_sg.id]
-  user_data              = filebase64("user_data.sh")
+  #user_data              = filebase64("user_data.sh")
   iam_instance_profile   = data.aws_iam_instance_profile.ssm_role.role_name # Attach role created in var.tf here for role to populate on ec2
 
 
@@ -24,13 +24,13 @@ resource "aws_instance" "app_server_ec2" {
 
 
 
-#### DEFINING ALB 
+# DEFINING ALB 
 resource "aws_lb" "alb" {
   name               = "${var.ProjectName}-${var.env}-alb"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
-  subnets            = ["subnet-031413dc70965a163", "subnet-038fc6a3e7ef68131"] #[data.aws_subnets.public_subnet-01.id, data.aws_subnets.public_subnet-02.id] 
+  subnets            = ["subnet-031413dc70965a163", "subnet-038fc6a3e7ef68131"] 
 
 
 
@@ -75,7 +75,7 @@ resource "aws_lb_target_group" "public-proxy" {
   name     = "${var.env}-public-proxy"
   port     = 80
   protocol = "HTTP"
-  vpc_id   = data.aws_vpc.CloudGuru.id #var.vpc.id.id 
+  vpc_id   = data.aws_vpc.CloudGuru.id 
 
 
 
@@ -109,11 +109,6 @@ resource "aws_lb_target_group_attachment" "tg_attachment" {
 
 }
 
-
-
-# resource "aws_vpc" "cloud_guru" {
-#   cidr_block = "10.0.0.0/22"
-# }
 
 
 # DEFINING LAUNCH TEMPLATE

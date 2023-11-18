@@ -9,11 +9,6 @@ variable "subnet_id" {
 
 }
 
-# variable "subnet_id" {
-#   default = "subnet-038fc6a3e7ef68131"
-
-# }
-
 
 variable "aws_region" {
   default = "us-east-1"
@@ -53,7 +48,7 @@ variable "vpc_id" {
 
 ######## DATA 
 
-data "aws_ami" "amazon_linux" { # TODO worked before but made it not part of script
+data "aws_ami" "amazon_linux" { 
   most_recent = true
 
 }
