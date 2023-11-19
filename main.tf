@@ -103,7 +103,7 @@ resource "aws_lb_target_group" "public-proxy" {
 resource "aws_lb_target_group_attachment" "tg_attachment" {
   target_group_arn = aws_lb_target_group.public-proxy.arn
   # attach the ALB to this target group     
-  target_id = aws_instance.app_server_ec2.id #aws_lb.alb.arn
+  target_id = aws_instance.app_server_ec2.id    #aws_lb.alb.arn   
   #  If the target type is alb, the targeted Application Load Balancer must have at least one listener whose port matches the target group port.
   port = 80
 
@@ -127,14 +127,19 @@ resource "aws_launch_template" "aols-spa-lt" {
 
 
 
-# # DEFINING AUTO SCALING GROUP
-# resource "aws_autoscaling_group" "aols-spa-asg" {
-#   availability_zones = ["us-east-1a","us-east-1b"]
-#   depends_on = [ aws_launch_template.aols-spa-lt ]
-#   desired_capacity   = 1
-#   max_size           = 2
-#   min_size           = 1
-#   target_group_arns = [aws_lb_target_group.public-proxy.arn]
+# DEFINING AUTO SCALING GROUP
+resource "aws_autoscaling_group" "aols-spa-asg" {
+  #availability_zones = ["us-east-1a","us-east-1b"]
+  name = "${var.ProjectName}-${var.env}-asg-instance"
+  depends_on = [ aws_launch_template.aols-spa-lt ]
+  desired_capacity   = 1
+  max_size           = 2
+  min_size           = 1
+  target_group_arns = [aws_lb_target_group.public-proxy.arn]
+  vpc_zone_identifier = ["subnet-031413dc70965a163", "subnet-038fc6a3e7ef68131"]
+  
+  
+  
 
 
 
@@ -142,8 +147,8 @@ resource "aws_launch_template" "aols-spa-lt" {
 
 
 
-#   launch_template {
-#     id      = aws_launch_template.aols-spa-lt.id
-#     version = "$Latest"
-#   }
-# }
+  launch_template {
+    id      = aws_launch_template.aols-spa-lt.id
+    version = "$Latest"
+  }
+}
