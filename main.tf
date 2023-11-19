@@ -137,14 +137,6 @@ resource "aws_autoscaling_group" "aols-spa-asg" {
   min_size           = 1
   target_group_arns = [aws_lb_target_group.public-proxy.arn]
   vpc_zone_identifier = ["subnet-031413dc70965a163", "subnet-038fc6a3e7ef68131"]
-  
-  
-  
-
-
-
-
-
 
 
   launch_template {
@@ -152,3 +144,4 @@ resource "aws_autoscaling_group" "aols-spa-asg" {
     version = "$Latest"
   }
 }
+
